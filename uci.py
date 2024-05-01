@@ -22,4 +22,9 @@ print(phiusiil_phishing_url_website.variables)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
 classifier = DecisionTreeClassifier()
+#finding categorical columns
+categorical_indexes = []
+for idx, column in enumerate(phiusiil_phishing_url_website.variables.columns):
+    if phiusiil_phishing_url_website.variables.loc[idx, 'type'] == 'Categorical':
+        categorical_indexes.append(idx)
 
