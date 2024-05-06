@@ -18,26 +18,25 @@ print(phiusiil_phishing_url_website.metadata)
 # variable information 
 print(phiusiil_phishing_url_website.variables) 
 
-# Split dataset into training set and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
-
 #TO DO: Change categorical columns into encoded(numeric values) columns
 #1 - one-hot encoding 2 - label encoding 3 - ordinal encoding
 
-# LabelEncoder()
-
 #finding categorical columns
-categorical_indexes = []
-for idx, column in enumerate(phiusiil_phishing_url_website.variables.columns):
-    if phiusiil_phishing_url_website.variables.loc[idx, 'type'] == 'Categorical':
-        categorical_indexes.append(idx)
+categorical_columns = []
 
-categorical_columns = phiusiil_phishing_url_website.variables.loc[categorical_indexes, 'name'].tolist()
+for index, row in phiusiil_phishing_url_website.variables.iterrows():
+    if row['type'] == 'Categorical':
+        categorical_columns.append(row['name'])
 
 label_encoder = LabelEncoder()
-for x in categorical_columns:
-    X.loc[:, x] = label_encoder.fit_transform(X.loc[:, x])
-#moze zrobic dla X_test i X_train, z jakiehgos powodu nie robi dla kolumny title
+#encode every categorical column, but not FILENAME (first one)
+for x in categorical_columns[1:]:
+    X.isetitem(X.columns.get_loc(x), label_encoder.fit_transform(X[x]))
+    #X.loc[:, x] = label_encoder.fit_transform(X.loc[:, x])
+    #label_encoder.fit_transform(X[X.loc[:, x]])
+
+# Split dataset into training set and test set
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
 # Create Decision Tree classifer object
 DTC = DecisionTreeClassifier()
@@ -48,12 +47,24 @@ y_pred = DTC.predict(X_test)
 #Model accuracy
 metrics.accuracy_score(y_test, y_pred)
 
-#TO DO: add visualization of decision tree (use graphviz and pydotplus?)
 
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 
-# Narysuj drzewo decyzyjne
+# visualization of DTC
 plt.figure(figsize=(20,10))
 plot_tree(DTC, feature_names=X_train.columns, class_names=['phishing', 'not phishing'], filled=True)
+plt.show()
+
+#Drawing nonzero feature inmportance
+feature_importance = DTC.feature_importances_
+feature_names = X_train.columns
+nonzero_feature_importance = feature_importance[feature_importance > 0]
+nonzero_feature_names = feature_names[feature_importance > 0]
+
+plt.figure(figsize=(10, 6))
+plt.barh(nonzero_feature_names, nonzero_feature_importance, color='skyblue')
+plt.xlabel('Feature Importance')
+plt.ylabel('Feature Name')
+plt.title('Feature Importance in Decision Tree Classifier')
 plt.show()
