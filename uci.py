@@ -16,7 +16,7 @@ y = phiusiil_phishing_url_website.data.targets
 # metadata 
 print(phiusiil_phishing_url_website.metadata)   
 # variable information 
-print(phiusiil_phishing_url_website.variables) 
+print(phiusiil_phishing_url_website.) 
 
 #TO DO: Change categorical columns into encoded(numeric values) columns
 #1 - one-hot encoding 2 - label encoding 3 - ordinal encoding
@@ -45,14 +45,14 @@ DTC = DTC.fit(X_train,y_train)
 #Predict the response for test dataset
 y_pred = DTC.predict(X_test)
 #Model accuracy
-metrics.accuracy_score(y_test, y_pred)
+print(metrics.accuracy_score(y_test, y_pred))
 
 
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 
 # visualization of DTC
-plt.figure(figsize=(20,10))
+plt.figure(figsize=(20, 10), dpi=300)
 plot_tree(DTC, feature_names=X_train.columns, class_names=['phishing', 'not phishing'], filled=True)
 plt.show()
 
@@ -62,7 +62,7 @@ feature_names = X_train.columns
 nonzero_feature_importance = feature_importance[feature_importance > 0]
 nonzero_feature_names = feature_names[feature_importance > 0]
 
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(10, 6), dpi=500)
 plt.barh(nonzero_feature_names, nonzero_feature_importance, color='skyblue')
 plt.xlabel('Feature Importance')
 plt.ylabel('Feature Name')
