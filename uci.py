@@ -16,7 +16,7 @@ y = phiusiil_phishing_url_website.data.targets
 # metadata 
 print(phiusiil_phishing_url_website.metadata)   
 # variable information 
-print(phiusiil_phishing_url_website.) 
+print(phiusiil_phishing_url_website.feature) 
 
 #TO DO: Change categorical columns into encoded(numeric values) columns
 #1 - one-hot encoding 2 - label encoding 3 - ordinal encoding
@@ -45,7 +45,7 @@ DTC = DTC.fit(X_train,y_train)
 #Predict the response for test dataset
 y_pred = DTC.predict(X_test)
 #Model accuracy
-print(metrics.accuracy_score(y_test, y_pred))
+print("accuracy: ",metrics.accuracy_score(y_test, y_pred))
 
 
 from sklearn.tree import plot_tree
