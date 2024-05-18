@@ -34,7 +34,8 @@ for x in categorical_columns[1:]:
     X.isetitem(X.columns.get_loc(x), label_encoder.fit_transform(X[x]))
     #X.loc[:, x] = label_encoder.fit_transform(X.loc[:, x])
     #label_encoder.fit_transform(X[X.loc[:, x]])
-
+del X["URLSimilarityIndex"]
+del X["URL"]
 # Split dataset into training set and test set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
@@ -46,7 +47,6 @@ DTC = DTC.fit(X_train,y_train)
 y_pred = DTC.predict(X_test)
 #Model accuracy
 print("accuracy: ",metrics.accuracy_score(y_test, y_pred))
-
 
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
